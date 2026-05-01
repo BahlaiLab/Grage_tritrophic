@@ -100,12 +100,12 @@ model.hubbarddata.tertiary <- multiple_breakups(hubbarddata.tertiary)
 #and for the record, what's the stability time for each trophic level? 
 stability_time(hubbarddata.primary) #11
 stability_time(hubbarddata.secondary)#13
-stability_time(hubbarddata.tertiary) #13
+stability_time(hubbarddata.tertiary) #33
 
 #and for the record, what's the proportion wih a misleading trajectory before stability for each trophic level? 
 proportion_wrong_before_stability(hubbarddata.primary, significance=0.05) #77%
 proportion_wrong_before_stability(hubbarddata.secondary, significance=0.05)#64%
-proportion_wrong_before_stability(hubbarddata.tertiary, significance=0.05) #57%
+proportion_wrong_before_stability(hubbarddata.tertiary, significance=0.05) #58%
 
 linefit(standardize(hubbarddata.primary)) #startyear Ndata Nyears slope slopeSE, slopeP etc
 linefit(standardize(hubbarddata.secondary))
@@ -129,8 +129,9 @@ library(forcats)
 library(stringr)
 
 #create heatmap for each study duration
+#because one stability time>> overlap of time series, use second highest stability time: 13
 
-#use only 4, 8, 13y study durations because 13 year max stability time 
+#use only 4, 8, 13y study duration 
 all_heat.hubbarddata <- model.hubbarddata %>%
   filter(N_years == "4"|N_years == "8"|N_years == "13") %>%
   ggplot(aes(x=start_year, y=trophic_level)) + geom_tile(aes(fill = as.numeric(slope)),colour = "white") +
@@ -391,6 +392,7 @@ fit_and_plot_model <- function(data, formula, start_list, plot_title, dataset_na
     geom_point(color = "blue") +       # Original data points
     geom_line(aes(y = predicted), color = "red") +   # Fitted sine curve
     labs(x = NULL, y =  NULL, title = NULL)+
+    ylim(-1,1)+
     theme_bw()
   list(plot = plot, metrics = metrics_df)
 }

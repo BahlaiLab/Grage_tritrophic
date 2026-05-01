@@ -458,6 +458,7 @@ fit_and_plot_model <- function(data, formula, start_list, plot_title, dataset_na
     geom_point(color = "blue") +       # Original data points
     geom_line(aes(y = predicted), color = "red") +   # Fitted sine curve
     labs(x = NULL, y =  NULL, title = NULL)+
+    ylim(-1,1)+
     theme_bw()
   list(plot = plot, metrics = metrics_df)
 }
